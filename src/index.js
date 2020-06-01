@@ -86,6 +86,21 @@ app.get("/api/user", (req, res) => {
   res.status(401).send("Unauthorized");
 });
 
+app.post('/api/users', (req, res) => {
+  const { firstname, lastname, email } = req.body;
+  connection.query(
+    "INSERT INTO users (firstname, lastname, email) VALUES(?, ?, ?)",
+    [firstname, lastname, email],
+    (err, results) => {
+      if (err) {
+        res.status(500).send('Internal server error')
+      } else {
+        res.json(results);
+      }
+
+    })
+});
+
 app.listen(port, () => {
   console.log(`Server is runing on 3000`);
 });
